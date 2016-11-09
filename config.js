@@ -1,3 +1,3 @@
 module.exports = {
-	database: process.env.MONGO_URI || 'localhost/nef'
+	database: process.env.MONGODB_URI || 'localhost/nef'
 };
