@@ -60,6 +60,24 @@ app.get('/api/characters/count', function(req, res, next) {
 });
 
 /**
+ * GET /api/characters/search
+ * Looks up a character by name. (case-insensitive)
+ */
+app.get('/api/characters/search', function(req, res, next) {
+  var characterName = new RegExp(req.query.name, 'i');
+
+  Character.findOne({ name: characterName }, function(err, character) {
+    if (err) return next(err);
+
+    if (!character) {
+      return res.status(404).send({ message: 'Character not found.' });
+    }
+    console.log(character);
+    res.send(character);
+  });
+});
+
+/**
  * GET /api/characters/top
  * Return 100 highest ranked characters. Filter by gender, race and bloodline.
  */
@@ -87,24 +105,6 @@ app.get('/api/characters/top', function(req, res, next) {
 
       res.send(characters);
     });
-});
-
-/**
- * GET /api/characters/search
- * Looks up a character by name. (case-insensitive)
- */
-app.get('/api/characters/search', function(req, res, next) {
-  var characterName = new RegExp(req.query.name, 'i');
-
-  Character.findOne({ name: characterName }, function(err, character) {
-    if (err) return next(err);
-
-    if (!character) {
-      return res.status(404).send({ message: 'Character not found.' });
-    }
-    console.log(character);
-    res.send(character);
-  });
 });
 
 /**
